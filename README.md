@@ -1,6 +1,6 @@
 # go-expr-completion
 
-A tool to complete a left-hand Side from given expression for Go.
+A tool to complete a left-hand side from given expression for Go.
 <br>This tool is aimed to be integrated with text editors.
 
 ## Usage
