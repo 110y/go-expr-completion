@@ -78,6 +78,24 @@ func TestGetExprTypeInfo(t *testing.T) {
 				},
 			},
 		},
+		"map": {
+			path: "package2/file1.go",
+			pos:  56,
+			expected: &analysis.TypeInfo{
+				StartPos: 56,
+				EndPos:   64,
+				Values: []*analysis.Value{
+					{
+						Name: "s",
+						Type: "string",
+					},
+					{
+						Name: "ok",
+						Type: "bool",
+					},
+				},
+			},
+		},
 	}
 
 	for name, test := range tests {

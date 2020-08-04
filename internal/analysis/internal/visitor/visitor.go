@@ -28,7 +28,7 @@ type Visitor struct {
 	inFuncDeclBody bool
 }
 
-func (v *Visitor) Visit(node ast.Node) (w ast.Visitor) {
+func (v *Visitor) Visit(node ast.Node) ast.Visitor {
 	if node == nil {
 		return nil
 	}
@@ -58,14 +58,39 @@ func (v *Visitor) Visit(node ast.Node) (w ast.Visitor) {
 	}
 
 	if v.inFuncDecl && v.inFuncDeclBody {
-		if tv, ok := v.info.Types[expr]; ok {
-			v.types = tv.Type
-			v.startPos = startPos
-			v.endPos = endPos
-
-			v.inFuncDecl = false
-			v.inFuncDeclBody = false
+		tv, ok := v.info.Types[expr]
+		if !ok {
+			return v
 		}
+
+		updated := false
+		iexpr, ok := expr.(*ast.IndexExpr)
+		if ok {
+			ident, ok := iexpr.X.(*ast.Ident)
+			if ok {
+				vs, ok := ident.Obj.Decl.(*ast.ValueSpec)
+				if ok {
+					_, ok := vs.Type.(*ast.MapType)
+					if ok {
+						idxType, ok := v.info.Types[iexpr.Index]
+						if ok {
+							updated = true
+							v.types = types.NewMap(idxType.Type, tv.Type)
+						}
+					}
+				}
+			}
+		}
+
+		if !updated {
+			v.types = tv.Type
+		}
+
+		v.startPos = startPos
+		v.endPos = endPos
+
+		v.inFuncDecl = false
+		v.inFuncDeclBody = false
 	}
 
 	return v
