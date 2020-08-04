@@ -91,15 +91,6 @@ func createTypeInfo(t types.Type) []*Value {
 		}
 		return result
 
-	case *types.Map:
-		values := createTypeInfo(t.Elem())
-		values = append(values, &Value{
-			Name: specializedTypeVarNameMap["bool"],
-			Type: "bool",
-		})
-
-		return values
-
 	default:
 		s := t.String()
 		n, ok := specializedTypeVarNameMap[s]

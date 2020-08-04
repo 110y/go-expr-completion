@@ -64,22 +64,33 @@ func (v *Visitor) Visit(node ast.Node) ast.Visitor {
 		}
 
 		updated := false
-		iexpr, ok := expr.(*ast.IndexExpr)
+
+		// Map
+		idxExpr, ok := expr.(*ast.IndexExpr)
 		if ok {
-			ident, ok := iexpr.X.(*ast.Ident)
+			ident, ok := idxExpr.X.(*ast.Ident)
 			if ok {
 				vs, ok := ident.Obj.Decl.(*ast.ValueSpec)
 				if ok {
 					_, ok := vs.Type.(*ast.MapType)
 					if ok {
-						idxType, ok := v.info.Types[iexpr.Index]
-						if ok {
-							updated = true
-							v.types = types.NewMap(idxType.Type, tv.Type)
-						}
+						v1 := types.NewVar(token.NoPos, nil, "", tv.Type)
+						v2 := types.NewVar(token.NoPos, nil, "", types.Typ[types.Bool])
+
+						v.types = types.NewTuple(v1, v2)
+						updated = true
 					}
 				}
 			}
+		}
+
+		// Type Assertion
+		if _, ok := expr.(*ast.TypeAssertExpr); ok {
+			v1 := types.NewVar(token.NoPos, nil, "", tv.Type)
+			v2 := types.NewVar(token.NoPos, nil, "", types.Typ[types.Bool])
+
+			v.types = types.NewTuple(v1, v2)
+			updated = true
 		}
 
 		if !updated {

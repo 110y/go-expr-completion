@@ -96,6 +96,24 @@ func TestGetExprTypeInfo(t *testing.T) {
 				},
 			},
 		},
+		"type assertion": {
+			path: "package2/file2.go",
+			pos:  146,
+			expected: &analysis.TypeInfo{
+				StartPos: 146,
+				EndPos:   166,
+				Values: []*analysis.Value{
+					{
+						Name: "v",
+						Type: "*github.com/110y/go-expr-completion/internal/analysis/internal/visitor.Visitor",
+					},
+					{
+						Name: "ok",
+						Type: "bool",
+					},
+				},
+			},
+		},
 	}
 
 	for name, test := range tests {
