@@ -63,6 +63,8 @@ By using this type information in text editors, we can complete the left-hand si
 ## Text Editor Plugins
 
 - Vim
-    - https://github.com/110y/vim-go-expr-completion/
+    - https://github.com/110y/vim-go-expr-completion
+- Emacs
+    - https://github.com/fujimisakari/emacs-go-expr-completion
 - Other Text Editors
     - Help Wanted :pray:
