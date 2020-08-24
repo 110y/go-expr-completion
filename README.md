@@ -59,3 +59,12 @@ Finally, `go-expr-completion` returs type information about `fmt.Fprintln` which
 By using this type information in text editors, we can complete the left-hand side from the expression like below (Vim):
 
 ![01d57234-441d-46ef-bb0d-7b8f336b84b4](https://user-images.githubusercontent.com/2134196/89279213-12ef8100-d682-11ea-8b93-5660b232255d.gif)
+
+## Text Editor Plugins
+
+- Vim
+    - https://github.com/110y/vim-go-expr-completion
+- Emacs
+    - https://github.com/fujimisakari/emacs-go-expr-completion
+- Other Text Editors
+    - Help Wanted :pray:
