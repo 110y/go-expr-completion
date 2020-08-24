@@ -66,20 +66,14 @@ func (v *Visitor) Visit(node ast.Node) ast.Visitor {
 		updated := false
 
 		// Map
-		idxExpr, ok := expr.(*ast.IndexExpr)
-		if ok {
-			ident, ok := idxExpr.X.(*ast.Ident)
-			if ok {
-				vs, ok := ident.Obj.Decl.(*ast.ValueSpec)
-				if ok {
-					_, ok := vs.Type.(*ast.MapType)
-					if ok {
-						v1 := types.NewVar(token.NoPos, nil, "", tv.Type)
-						v2 := types.NewVar(token.NoPos, nil, "", types.Typ[types.Bool])
+		if idxExpr, ok := expr.(*ast.IndexExpr); ok {
+			if t, ok := v.info.Types[idxExpr.X]; ok {
+				if _, ok := t.Type.(*types.Map); ok {
+					v1 := types.NewVar(token.NoPos, nil, "", tv.Type)
+					v2 := types.NewVar(token.NoPos, nil, "", types.Typ[types.Bool])
 
-						v.types = types.NewTuple(v1, v2)
-						updated = true
-					}
+					v.types = types.NewTuple(v1, v2)
+					updated = true
 				}
 			}
 		}

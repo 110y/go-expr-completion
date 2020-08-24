@@ -96,6 +96,42 @@ func TestGetExprTypeInfo(t *testing.T) {
 				},
 			},
 		},
+		"map field": {
+			path: "package2/file1.go",
+			pos:  163,
+			expected: &analysis.TypeInfo{
+				StartPos: 163,
+				EndPos:   180,
+				Values: []*analysis.Value{
+					{
+						Name: "i",
+						Type: "interface{}",
+					},
+					{
+						Name: "ok",
+						Type: "bool",
+					},
+				},
+			},
+		},
+		"nested map field": {
+			path: "package2/file1.go",
+			pos:  163,
+			expected: &analysis.TypeInfo{
+				StartPos: 163,
+				EndPos:   180,
+				Values: []*analysis.Value{
+					{
+						Name: "i",
+						Type: "interface{}",
+					},
+					{
+						Name: "ok",
+						Type: "bool",
+					},
+				},
+			},
+		},
 		"type assertion": {
 			path: "package2/file2.go",
 			pos:  146,
