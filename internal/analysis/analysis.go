@@ -91,6 +91,14 @@ func createTypeInfo(t types.Type) []*Value {
 		}
 		return result
 
+	case *types.Chan:
+		return []*Value{
+			{
+				Name: "ch",
+				Type: t.String(),
+			},
+		}
+
 	default:
 		s := t.String()
 		n, ok := specializedTypeVarNameMap[s]

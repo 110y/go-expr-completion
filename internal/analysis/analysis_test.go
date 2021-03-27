@@ -150,6 +150,48 @@ func TestGetExprTypeInfo(t *testing.T) {
 				},
 			},
 		},
+		"receiver channel": {
+			path: "package2/file2.go",
+			pos:  203,
+			expected: &analysis.TypeInfo{
+				StartPos: 183,
+				EndPos:   206,
+				Values: []*analysis.Value{
+					{
+						Name: "ch",
+						Type: "<-chan struct{}",
+					},
+				},
+			},
+		},
+		"sender channel": {
+			path: "package2/file2.go",
+			pos:  208,
+			expected: &analysis.TypeInfo{
+				StartPos: 208,
+				EndPos:   229,
+				Values: []*analysis.Value{
+					{
+						Name: "ch",
+						Type: "chan<- struct{}",
+					},
+				},
+			},
+		},
+		"send recv channel": {
+			path: "package2/file2.go",
+			pos:  231,
+			expected: &analysis.TypeInfo{
+				StartPos: 231,
+				EndPos:   260,
+				Values: []*analysis.Value{
+					{
+						Name: "ch",
+						Type: "chan struct{}",
+					},
+				},
+			},
+		},
 	}
 
 	for name, test := range tests {
